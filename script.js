@@ -15,46 +15,26 @@ const fs = require('fs');
   const wait_options = {
     waitUntil: 'networkidle0'
   }
+
   const page = await browser.newPage();
-
-
-  // await page.setRequestInterception(true);
-  // page.on('request', (request) => {
-  //   console.log('---------------------')
-  //   if (/^username/.test(request.postData())) {
-  //     console.log(request.url())
-  //     console.log(request.headers())
-  //     console.log(request.postData())
-  //     request.continue()
-  //     //request.continue({
-  //     //  postData: request.postData() + '&password=jjj'
-  //     //})
-  //   } else {
-  //     request.continue()
-  //   }
-  // });
 
   await page.goto(start, wait_options)
 
   await page.type('#username', process.env.username)
   await page.click('#loginButton')
-  // await Promise.all([
-  //   page.waitForNavigation(wait_options),
-  //   page.click('#loginButton')
-  // ]);
   // console.log(1)
-  await page.screenshot({path: '/tmp/scr1.png'});
+  await page.screenshot({
+    path: '/tmp/scr1.png'
+  });
+
   await page.type('#password', process.env.password)
-
-
-  // page.click('#loginButton')
   const aaa = await Promise.all([
     page.waitForNavigation(wait_options),
     page.click('#loginButton')
   ]);
-
   console.log(2)
   // await page.screenshot({path: '/tmp/scr2.png'});
+
   const button_revoke = await page.evaluate(() => {
     return {
       b: document.querySelector('input[name=remove]').value
@@ -66,9 +46,10 @@ const fs = require('fs');
     page.waitForNavigation(wait_options),
     page.click('input[name=remove]')
   ]);
-  // await page.click('input[name=remove]')
   console.log(3)
-  await page.screenshot({path: '/tmp/scr3.png'});
+  await page.screenshot({
+    path: '/tmp/scr3.png'
+  });
 
 
   await Promise.all([
@@ -77,7 +58,9 @@ const fs = require('fs');
   ]);
   // await page.click('input[name=create]')
   console.log(4)
-  await page.screenshot({path: '/tmp/scr4.png'});
+  await page.screenshot({
+    path: '/tmp/scr4.png'
+  });
 
   const token_info = await page.evaluate(() => {
     return {
@@ -87,6 +70,7 @@ const fs = require('fs');
   console.log(token_info)
 
   await browser.close()
+
   fs.unlinkSync('/tmp/scr3.png')
   fs.unlinkSync('/tmp/scr4.png')
 })();
