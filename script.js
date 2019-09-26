@@ -32,13 +32,11 @@ const fs = require('fs');
     page.waitForNavigation(wait_options),
     page.click('#loginButton')
   ]);
-  console.log(2)
+  console.log("login")
   // await page.screenshot({path: '/tmp/scr2.png'});
 
   const button_revoke = await page.evaluate(() => {
-    return {
-      b: document.querySelector('input[name=remove]').value
-    }
+    return document.querySelector('input[name=remove]').value
   })
   console.log(button_revoke)
 
@@ -46,7 +44,7 @@ const fs = require('fs');
     page.waitForNavigation(wait_options),
     page.click('input[name=remove]')
   ]);
-  console.log(3)
+  console.log("revoke")
   await page.screenshot({
     path: '/tmp/scr3.png'
   });
@@ -57,20 +55,21 @@ const fs = require('fs');
     page.click('input[name=create]')
   ]);
   // await page.click('input[name=create]')
-  console.log(4)
+  console.log("create")
   await page.screenshot({
     path: '/tmp/scr4.png'
   });
 
   const token_info = await page.evaluate(() => {
-    return {
-      b: document.querySelector('#token').value
-    }
+    return document.querySelector('#token').value + "\n" +
+      document.querySelector('h3:last-of-type + br').nextSibling.nodeValue.trim() + "\n" +
+      "ok"
   })
   console.log(token_info)
 
   await browser.close()
 
+  fs.unlinkSync('/tmp/scr1.png')
   fs.unlinkSync('/tmp/scr3.png')
   fs.unlinkSync('/tmp/scr4.png')
 })();
