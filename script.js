@@ -20,14 +20,14 @@ const fs = require('fs');
 
   await page.goto(start, wait_options)
 
-  await page.type('#username', process.env.username)
+  await page.type('#username', process.env['USERNAME'])
   await page.click('#loginButton')
   // console.log(1)
   await page.screenshot({
     path: '/tmp/scr1.png'
   });
 
-  await page.type('#password', process.env.password)
+  await page.type('#password', process.env['PASSWORD'])
   const aaa = await Promise.all([
     page.waitForNavigation(wait_options),
     page.click('#loginButton')

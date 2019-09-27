@@ -1,13 +1,14 @@
 package main
 
 import (
+	"os"
 	"os/exec"
 	"strings"
 )
 
 func main() {
 	cmd := exec.Command("node", "script.js")
-	cmd.Env = []string{"username=mail@qq.com", "password=psw"}
+	cmd.Env = []string{os.Getenv("USERNAME"), os.Getenv("PASSWORD")}
 
 	stdout, err := cmd.Output()
 	if err != nil {
